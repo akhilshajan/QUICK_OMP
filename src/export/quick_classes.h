@@ -135,7 +135,35 @@ class property: public dataOperator{
 
 };
 
+// class for wavefunction properties
+class wavefunction{
+  public:
+    std::vector<double> *scf_orbitals_a;    // SCF alpha-spin orbitals in the AO basis.
+    std::vector<double> *scf_orbitals_b;    // SCF beta-spin orbitals in the AO basis.	
+    std::vector<double> *scf_density_a;     // SCF alpha-spin density in the AO basis.	
+    std::vector<double> *scf_density_b;     // SCF beta-spin density in the AO basis.	
+    std::vector<double> *scf_eigenvalues_a; // SCF alpha-spin orbital eigenvalues.	
+    std::vector<double> *scf_eigenvalues_b; // SCF beta-spin orbital eigenvalues.	
+    std::vector<double> *scf_occupations_a; // SCF alpha-spin orbital occupations.	
+    std::vector<double> *scf_occupations_b; // SCF beta-spin orbital occupations.	
 
+};
+
+class hamiltonian{
+
+  public:
+    std::vector<double> *core_a;     // Alpha-spin core (one-electron) Hamiltonian in the AO basis.	
+    std::vector<double> *core_b;     // Beta-spin core (one-electron) Hamiltonian in the AO basis.
+    std::vector<double> *fock_a;     // SCF alpha-spin Fock matrix in the AO basis.      
+    std::vector<double> *fock_b;     // SCF beta-spin Fock matrix in the AO basis.     
+
+};
+
+
+class basisSet{
+
+
+};
 
 }
 
