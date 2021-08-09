@@ -1216,6 +1216,7 @@ cublasfolder=$QUICK_HOME/src/cuda/cublas
 cusolverfolder=$QUICK_HOME/src/cuda/cusolver
 octfolder=$QUICK_HOME/src/octree
 modfolder=$QUICK_HOME/src/modules
+exportfolder=$QUICK_HOME/src/export
 
 # build directories
 exefolder=$QUICK_HOME/bin

@@ -130,6 +130,7 @@ cpmakein:
 	@cp ./make.in $(subfolder)
 	@cp ./make.in $(modfolder)
 	@cp ./make.in $(blasfolder)
+	@cp ./make.in $(exportfolder)
 
 
 #================= common subroutine library ============================
@@ -184,6 +185,9 @@ $(MAIN):$(mainobjfolder)/%.o:$(srcfolder)/%.f90
 $(TESTAPI):$(mainobjfolder)/%.o:$(srcfolder)/%.f90
 	@echo "[QUICK]  FC $@"
 	$(VB)$(FC) $(CPPDEFS) $(CPPFLAGS) $(FFLAGS) -I$(objfolder) -c $< -o $@
+#==================== target for compiling export source ================
+quick_export:
+	@cd $(exportfolder) && make --no-print-directory all
 
 #  !---------------------------------------------------------------------!
 #  ! Parent build targets                                                !
@@ -191,22 +195,22 @@ $(TESTAPI):$(mainobjfolder)/%.o:$(srcfolder)/%.f90
 
 .PHONY: serial cuda mpi cudampi
 
-serial: cpmakein libxc_cpu octree quick_modules quick_subs $(OBJ) $(MAIN) blas-quick $(TESTAPI)
+serial: cpmakein libxc_cpu octree quick_modules quick_subs quick_export $(OBJ) $(MAIN) blas-quick $(TESTAPI)
 	$(VB)$(ARCH) $(ARCHFLAGS) $(libfolder)/libquick.$(LIBEXT) $(objfolder)/*.o
 	$(VB)$(FC) -o $(exefolder)/quick $(MAIN) -L$(libfolder) -lquick -lblas-quick -lxc $(LDFLAGS)
 	$(VB)$(FC) -o $(exefolder)/test-api $(TESTAPI) -L$(libfolder) -lquick -lblas-quick -lxc $(LDFLAGS)
 
-cuda: cpmakein libxc_cuda octree quick_cuda quick_modules quick_subs $(OBJ) $(MAIN) $(cusolverobj) $(cublasobj) $(TESTAPI)
+cuda: cpmakein libxc_cuda octree quick_cuda quick_modules quick_subs quick_export $(OBJ) $(MAIN) $(cusolverobj) $(cublasobj) $(TESTAPI)
 	$(VB)$(ARCH) $(ARCHFLAGS) $(libfolder)/libquick-cuda.$(LIBEXT) $(objfolder)/*.o $(libxcdevobjfolder)/*.o
 	$(VB)$(FC) -o $(exefolder)/quick.cuda $(MAIN) -L$(libfolder) -lquick-cuda -lxc-cuda $(CFLAGS) $(LDFLAGS)
 	$(VB)$(FC) -o $(exefolder)/test-api.cuda $(TESTAPI) -L$(libfolder) -lquick-cuda -lxc-cuda $(CFLAGS) $(LDFLAGS)
 
-mpi: cpmakein libxc_cpu octree quick_modules quick_subs $(OBJ) $(MAIN) blas-quick $(TESTAPI)
+mpi: cpmakein libxc_cpu octree quick_modules quick_subs quick_export $(OBJ) $(MAIN) blas-quick $(TESTAPI)
 	$(VB)$(ARCH) $(ARCHFLAGS) $(libfolder)/libquick-mpi.$(LIBEXT) $(objfolder)/*.o
 	$(VB)$(FC) -o $(exefolder)/quick.MPI $(MAIN) -L$(libfolder) -lquick-mpi -lblas-quick -lxc $(LDFLAGS)
 	$(VB)$(FC) -o $(exefolder)/test-api.MPI $(TESTAPI) -L$(libfolder) -lquick-mpi -lblas-quick -lxc $(LDFLAGS)
 
-cudampi: cpmakein libxc_cuda octree quick_cuda quick_modules quick_subs $(OBJ) $(MAIN) $(cusolverobj) $(cublasobj) $(TESTAPI)
+cudampi: cpmakein libxc_cuda octree quick_cuda quick_modules quick_subs quick_export $(OBJ) $(MAIN) $(cusolverobj) $(cublasobj) $(TESTAPI)
 	$(VB)$(ARCH) $(ARCHFLAGS) $(libfolder)/libquick-cudampi.$(LIBEXT) $(objfolder)/*.o $(libxcdevobjfolder)/*.o
 	$(VB)$(FC) -o $(exefolder)/quick.cuda.MPI $(MAIN) -L$(libfolder) -lquick-cudampi -lxc-cuda $(CFLAGS) $(LDFLAGS)
 	$(VB)$(FC) -o $(exefolder)/test-api.cuda.MPI $(TESTAPI) -L$(libfolder) -lquick-cudampi -lxc-cuda $(CFLAGS) $(LDFLAGS)
@@ -226,3 +230,4 @@ clean:
 	@cd $(modfolder) && make --no-print-directory clean
 	@cd $(libxcfolder) && make --no-print-directory clean
 	@cd $(libxcfolder)/maple2c_device && make --no-print-directory clean
+	@cd $(exportfolder) && make --no-print-directory clean
