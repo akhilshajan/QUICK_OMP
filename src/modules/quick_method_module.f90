@@ -596,6 +596,15 @@ module quick_method_module
             endif
             CHECK_ERROR(ierr)
 
+            if (index(keyWD,'HESSIAN').ne.0) then
+               self%analHess=.true.
+               if(index(keyWD,'B3LYP').ne.0) then
+                  self%uselibxc=.true.
+                  tempstring='LIBXC=HYB_GGA_XC_B3LYP'
+                  call set_libxc_func_info(tempstring, self, ierr)
+               endif
+            endif
+
             if(self%B3LYP .or. self%BLYP .or. self%BPW91 .or. self%MPW91PW91 .or. &
                 self%MPW91LYP .or. self%uselibxc) self%DFT=.true.
 
@@ -620,7 +629,6 @@ module quick_method_module
             if (index(keyWD,'DIIS-OPTIMIZE').ne.0)self%diisOpt=.true.
             if (index(keyWD,'GAP').ne.0)        self%prtGap=.true.
             if (index(keyWD,'GRAD').ne.0)       self%analGrad=.true.
-            if (index(keyWD,'HESSIAN').ne.0)    self%analHess=.true.
             if (index(keyWD,'FREQ').ne.0)       self%freq=.true.
             if (index(keywd,'DEBUG').ne.0)      self%debug=.true.
             if (index(keyWD,'READ').ne.0)       self%readDMX=.true.
