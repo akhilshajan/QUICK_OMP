@@ -56,6 +56,9 @@ subroutine getMol(ierr)
       call check_quick_method_and_molspec(iOutFile,quick_molspec,quick_method,ierr)
       CHECK_ERROR(ierr)
 
+      ! if data exporting is requested, initialize that too
+      if(quick_method%writeJSON) call export_init(trim(jsonFileName))
+
    endif
    !-----------END MPI/MASTER-----------------------
 #ifdef MPIV

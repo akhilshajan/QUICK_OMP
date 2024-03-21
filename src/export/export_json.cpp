@@ -17,12 +17,15 @@
 */
 
 #include <iostream>
-#include <fstream>
 #include "./include/json.hpp"
+#include "./export_json.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 using namespace nlohmann; 
+
+
 
 /*int main(void){
 

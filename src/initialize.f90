@@ -29,6 +29,8 @@ subroutine initialize1(ierr)
    use quick_method_module
    use quick_timer_module
    use quick_exception_module
+   use quick_files_module
+
    implicit none
 
    ! Parameter list

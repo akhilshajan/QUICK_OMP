@@ -35,6 +35,7 @@ module quick_files_module
     character(len=80) :: CPHFFileName   = ''
     character(len=80) :: dataFileName   = ''
     character(len=80) :: intFileName    = ''
+    character(len=80) :: jsonFileName   = ''
 
 
     ! Basis set and directory
@@ -118,7 +119,9 @@ module quick_files_module
         pdbFileName=inFileName(1:i-1)//'.pdb'
         dataFileName=inFileName(1:i-1)//'.dat'
         intFileName=inFileName(1:i-1)//'.int'
+        jsonFileName=inFileName(1:i-1)//'.json'
 
+write(*,*) jsonFileName
         return
 
     end subroutine
@@ -272,7 +275,6 @@ module quick_files_module
 
         return
     end subroutine print_quick_io_file
-
 
 
 end module quick_files_module

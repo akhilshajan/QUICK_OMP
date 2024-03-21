@@ -34,13 +34,31 @@ class quick{
    
   public:
     // constructor
-    quick(void);
+    quick(void){};
+
+    quick(std::string quick_version) this->quick_version = quick_version;
 
     //destructor
-    ~quick(void);
+    ~quick(void){};
 
 };
 
+class simulation{
+
+  public:
+    std :: string simulation_type;
+    molecule *mol;
+    property *prop;
+    wavefunction *wf;
+
+    // constructor
+    simulation(void){};
+    simulation(std::string simulation_type) this->simulation_type = simulation_type;
+
+    // destructor
+    ~simulation(void){};
+
+};
 
 class dataOperator{
 

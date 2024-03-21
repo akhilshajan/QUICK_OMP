@@ -20,7 +20,7 @@ include $(MAKEIN)
 #  ! Variable declarations                                               !
 #  !---------------------------------------------------------------------!
 
-CXXOBJ=$(objfolder)/quick_classes.o $(objfolder)/export_json.o
+CXXOBJ=$(objfolder)/quick_classes.o $(objfolder)/quick_export.o $(objfolder)/export_json.o
 
 #  !---------------------------------------------------------------------!
 #  ! Parent build targets                                                !

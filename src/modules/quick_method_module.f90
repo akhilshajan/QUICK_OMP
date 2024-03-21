@@ -39,6 +39,7 @@ module quick_method_module
         logical :: writePMat = .false. ! flag to write density matrix
         logical :: readSAD = .true.    ! flag to read SAD guess
         logical :: writeSAD = .false.  ! flag to write SAD guess
+        logical :: writeJSON = .false. ! flag to write data into json file
         logical :: diisSCF =  .false.  ! DIIS SCF
         logical :: prtGap =  .false.   ! flag to print HOMO-LUMO gap
         logical :: opt =  .false.      ! optimization
@@ -667,6 +668,13 @@ endif
             if (index(keywd,'BASISZERO=') /= 0) then
                 call read(keywd,'BASISZERO', itemp)
                 self%basisCufoff=10.d0**(-1.d0*itemp)
+            endif
+
+            ! data exporting to other formats
+            if (index(keyWD,'EXPORT').ne.0) then
+                if(index(keyWD,'JSON').ne.0) then
+                    self%writeJSON=.true.
+                endif
             endif
 
         end subroutine read_quick_method

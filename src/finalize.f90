@@ -70,6 +70,8 @@ subroutine finalize(io,ierr,option)
     integer option  ! 0 if called from Quick and 1 if called from the API
     integer, intent(inout) :: ierr
 
+    if(master .and. quick_method%writeJSON) call export_finalize()
+
     ! Deallocate all variables
     call deallocateall(ierr)
 
