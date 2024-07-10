@@ -82,8 +82,8 @@ subroutine fdhessian(failed)
   do Iatom = 1,natom
      do Idirection = 1,3
 
-        write(ioutfile,1300)Iatom,Idirection
-1300 FORMAT(' ** Atom No: ',I3,' Step No: ',I2,' Step Up **')
+!        write(ioutfile,1300)Iatom,Idirection
+!1300 FORMAT(' ** Atom No: ',I3,' Step No: ',I2,' Step Up **')
 
         xyz(Idirection,Iatom) = xyz(Idirection,Iatom) + stepsize
 
@@ -118,7 +118,8 @@ subroutine fdhessian(failed)
 
 #endif
 
-        call getEnergy(.false.,ierr)
+        SAFE_CALL(getEnergy(.false.,ierr))
+        !call getEnergy(.false.,ierr)
         if (quick_method%UNRST) then
             call uscf_gradient
         else
@@ -131,28 +132,28 @@ subroutine fdhessian(failed)
   endif
 #endif
 
-        write(ioutfile,*)' Step-Up Gradient is'
-        do i=1,natom
-        ii=3*(i-1)
-        write(ioutfile,'(3(F7.4,7X))')quick_qm_struct%gradient(ii+1),quick_qm_struct%gradient(ii+2),quick_qm_struct%gradient(ii+3)
-        enddo
+!        write(ioutfile,*)' Step-Up Gradient is'
+!        do i=1,natom
+!        ii=3*(i-1)
+!        write(ioutfile,'(3(F7.4,7X))')quick_qm_struct%gradient(ii+1),quick_qm_struct%gradient(ii+2),quick_qm_struct%gradient(ii+3)
+!        enddo
  
         Idest = (Iatom-1)*3 + Idirection
         do Iadd = 1,natom*3
            quick_qm_struct%hessian(Idest,Iadd) = quick_qm_struct%gradient(Iadd)
         enddo
 
-        write(ioutfile,*) ' Hessian is:'
-        do Iatm=1,natom*3
-        write(ioutfile,'(9(F7.4,7X))')(quick_qm_struct%hessian(Jatm,Iatm),Jatm=1,natom*3)
-        enddo
+!        write(ioutfile,*) ' Hessian is:'
+!        do Iatm=1,natom*3
+!        write(ioutfile,'(9(F7.4,7X))')(quick_qm_struct%hessian(Jatm,Iatm),Jatm=1,natom*3)
+!        enddo
 
   if (quick_method%DFT) then
      call deform_dft_grid(quick_dft_grid)
   endif
 
-        write(ioutfile,1500)Iatom,Idirection
-1500 FORMAT(' ** Atom No: ',I3,' Step No: ',I2,' Step Down **')
+!        write(ioutfile,1500)Iatom,Idirection
+!1500 FORMAT(' ** Atom No: ',I3,' Step No: ',I2,' Step Down **')
 
         xyz(Idirection,Iatom) = xyz(Idirection,Iatom)-2.d0*stepsize
 
@@ -188,7 +189,8 @@ subroutine fdhessian(failed)
 
 #endif
 
-        call getEnergy(.false.,ierr)
+        SAFE_CALL(getEnergy(.false.,ierr))
+        !call getEnergy(.false.,ierr)
         if (quick_method%UNRST) then
             call uscf_gradient
         else
@@ -201,21 +203,21 @@ subroutine fdhessian(failed)
   endif
 #endif 
 
-        write(ioutfile,*)' Step-Down Gradient is'
-        do i=1,natom
-        ii=3*(i-1)
-        write(ioutfile,'(3(F7.4,7X))')quick_qm_struct%gradient(ii+1),quick_qm_struct%gradient(ii+2),quick_qm_struct%gradient(ii+3)
-        enddo
+!        write(ioutfile,*)' Step-Down Gradient is'
+!        do i=1,natom
+!        ii=3*(i-1)
+!        write(ioutfile,'(3(F7.4,7X))')quick_qm_struct%gradient(ii+1),quick_qm_struct%gradient(ii+2),quick_qm_struct%gradient(ii+3)
+!        enddo
 
         Idest = (Iatom-1)*3 + Idirection
         do Iadd = 1,natom*3
            quick_qm_struct%hessian(Idest,Iadd) =(quick_qm_struct%hessian(Idest,Iadd) - quick_qm_struct%gradient(Iadd))/(2*stepsize)
         enddo
 
-        write(ioutfile,*) ' Hessian is:'
-        do Iatm=1,natom*3
-        write(ioutfile,'(9(F7.4,7X))')(quick_qm_struct%hessian(Jatm,Iatm),Jatm=1,natom*3)
-        enddo
+!        write(ioutfile,*) ' Hessian is:'
+!        do Iatm=1,natom*3
+!        write(ioutfile,'(9(F7.4,7X))')(quick_qm_struct%hessian(Jatm,Iatm),Jatm=1,natom*3)
+!        enddo
 
   if (quick_method%DFT) then
      call deform_dft_grid(quick_dft_grid)
