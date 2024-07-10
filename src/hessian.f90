@@ -118,8 +118,8 @@ subroutine fdhessian(failed)
 
 #endif
 
-        SAFE_CALL(getEnergy(.false.,ierr))
-        !call getEnergy(.false.,ierr)
+        !SAFE_CALL(getEnergy(.false.,ierr))
+        call getEnergy(.false.,ierr)
         if (quick_method%UNRST) then
             call uscf_gradient
         else
@@ -189,8 +189,8 @@ subroutine fdhessian(failed)
 
 #endif
 
-        SAFE_CALL(getEnergy(.false.,ierr))
-        !call getEnergy(.false.,ierr)
+        !SAFE_CALL(getEnergy(.false.,ierr))
+        call getEnergy(.false.,ierr)
         if (quick_method%UNRST) then
             call uscf_gradient
         else
